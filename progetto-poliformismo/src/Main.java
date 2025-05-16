@@ -1,26 +1,22 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        List<Animale> zoo = new ArrayList<>();
+        Map<Key, Animale> zoo = new HashMap<>();
         Animale leone1 = new Leone("Simba");
         Animale leone2 = new Leone("Mufasa");
         Animale giraffa = new Giraffa("Giraffa");
         Animale cavallo = new Cavallo("Cavallo");
 
-        zoo.add(leone1);
-        zoo.add(leone2);
-        zoo.add(giraffa);
-        zoo.add(cavallo);
+        zoo.put(new Key("Leone1"), leone1);
+        zoo.put(new Key("Leone1"), leone2);
+        zoo.put(new Key("Giraffa"), giraffa);
+        zoo.put(new Key("Cavallo"), cavallo);
 
-
-        for(Animale animale : zoo){
-            System.out.println(animale.getNomeAnimale());
-            animale.faiVerso();
-            if(animale instanceof Predatore)
-                ((Predatore)animale).vaiACaccia();
+        for(Map.Entry<Key, Animale> entry: zoo.entrySet()){
+            System.out.println("Key: " + entry.getKey() + " -> " + entry.getValue());
 
         }
+
     }
 }
