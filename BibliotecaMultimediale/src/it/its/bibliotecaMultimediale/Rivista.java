@@ -48,7 +48,7 @@ public class Rivista extends MaterialeBiblioteca{
                 ", titolo='" + super.getTitolo() + '\'' +
                 ", annoRilascio=" + super.getAnnoRilascio() +
                 ", disponibilita=" + super.getDisponibilita() +
-                "numeroUscita=" + numeroUscita +
+                ", numeroUscita=" + numeroUscita +
                 ", periodicita=" + periodicita +
                 '}';
     }
