@@ -1,8 +1,14 @@
 package it.its.bibliotecaMultimediale;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Utente {
+public class Utente implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final int id;
     private final String nome;
     private final String cognome;

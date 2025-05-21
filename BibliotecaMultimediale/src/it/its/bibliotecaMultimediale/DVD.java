@@ -1,14 +1,37 @@
 package it.its.bibliotecaMultimediale;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class DVD extends MaterialeBiblioteca{
+public class DVD extends MaterialeBiblioteca implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final Autore regista;
     private final int durata;
-    private enum Genere{
+    public enum Genere{
         AZIONE,
         HORROR,
-        DRAMMATICO
+        DRAMMATICO;
+        public static Map<String, Genere> GENERE_MAP = new HashMap<>();
+        static {
+            GENERE_MAP.put("azione", AZIONE);
+            GENERE_MAP.put("horror", HORROR);
+            GENERE_MAP.put("drammatico", DRAMMATICO);
+        }
+        public static Genere lookUp(String value){
+            if(value == null)
+                throw new IllegalArgumentException("Valore non valido");
+            value = value.toLowerCase();
+            Genere genere = GENERE_MAP.get(value);
+            if(genere == null)
+                throw new IllegalArgumentException("Genere non valido");
+            return genere;
+        }
     }
     private final Genere genere;
 

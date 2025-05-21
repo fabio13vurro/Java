@@ -7,25 +7,17 @@ import java.util.Set;
 
 public class Biblioteca {
     private final Set<MaterialeBiblioteca> collezioneMateriali;
-    private final Set<Utente> collezioneUtente;
-    private final Set<Prestito> collezionePrestito;
 
     public Biblioteca() {
         this.collezioneMateriali = new HashSet<>();
-        this.collezioneUtente = new HashSet<>();
-        this.collezionePrestito = new HashSet<>();
+    }
+
+    public Set<MaterialeBiblioteca> getCollezioneMateriali() {
+        return collezioneMateriali;
     }
 
     public void aggiungiMateriale(MaterialeBiblioteca materialeBiblioteca) {
         collezioneMateriali.add(materialeBiblioteca);
-    }
-
-    public void aggiungiUtente(Utente utente) {
-        collezioneUtente.add(utente);
-    }
-
-    public void aggiungiPrestito(Prestito prestito) {
-        collezionePrestito.add(prestito);
     }
 
     public String stampaCollezioniMateriali(){
@@ -36,28 +28,14 @@ public class Biblioteca {
         return builder.toString();
     }
 
-    public String stampaCollezioniUtente(){
-        StringBuilder builder = new StringBuilder();
-        for(Utente utente : collezioneUtente){
-            builder.append(utente.toString()).append("\n");
-        }
-        return builder.toString();
-    }
-
-    public String stampaCollezioniPrestito(){
-        StringBuilder builder = new StringBuilder();
-        for(Prestito prestito : collezionePrestito){
-            builder.append(prestito.toString()).append("\n");
-        }
-        return builder.toString();
-    }
-
-    public List<MaterialeBiblioteca> ricercaElementi(String titolo){
+    public List<MaterialeBiblioteca> ricercaElementi(String titolo) throws Exception {
         List<MaterialeBiblioteca> risultato = new ArrayList<>();
         for(MaterialeBiblioteca materialeBiblioteca : collezioneMateriali){
             if(materialeBiblioteca.getTitolo().equals(titolo))
                 risultato.add(materialeBiblioteca);
         }
+        if(risultato.isEmpty())
+            throw new NoItemException("Errore");
         return risultato;
     }
 
@@ -84,5 +62,13 @@ public class Biblioteca {
         }
         return risultato;
     }
+
+    public void dettaglio(long id){
+       for(MaterialeBiblioteca materialeBiblioteca : collezioneMateriali){
+           if(materialeBiblioteca.getId() == id)
+               System.out.println("Oggetto trovato: " + materialeBiblioteca);
+       }
+    }
+
 
 }

@@ -1,8 +1,14 @@
 package it.its.bibliotecaMultimediale;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Libro extends MaterialeBiblioteca{
+public class Libro extends MaterialeBiblioteca implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final String ISBN;
     private final int pagine;
     private final Autore riferimentoAutore;
@@ -44,13 +50,13 @@ public class Libro extends MaterialeBiblioteca{
     @Override
     public String toString() {
         return "Libro{" +
-                "id=" + super.getId() +
-                ", titolo='" + super.getTitolo() + '\'' +
-                ", annoRilascio=" + super.getAnnoRilascio() +
-                ", disponibilita=" + super.getDisponibilita() +
-                ", ISBN='" + ISBN + '\'' +
-                ", pagine=" + pagine +
-                ", riferimentoAutore=" + riferimentoAutore +
+                "\n id=" + super.getId() +
+                "\n titolo='" + super.getTitolo() + '\'' +
+                "\n annoRilascio=" + super.getAnnoRilascio() +
+                "\n disponibilita=" + super.getDisponibilita() +
+                "\n ISBN='" + ISBN + '\'' +
+                "\n pagine=" + pagine +
+                "\n riferimentoAutore=" + riferimentoAutore +
                 '}';
     }
 }

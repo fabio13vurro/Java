@@ -1,14 +1,38 @@
 package it.its.bibliotecaMultimediale;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class Rivista extends MaterialeBiblioteca{
+public class Rivista extends MaterialeBiblioteca implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private final int numeroUscita;
-    private enum Periodicita{
+    public enum Periodicita{
         SETTIMANALE,
         MENSILE,
         SEMESTRALE,
-        ANNUALE
+        ANNUALE;
+        public static Map<String, Rivista.Periodicita> PERIODICITA_MAP = new HashMap<>();
+        static {
+            PERIODICITA_MAP.put("settimanale", SETTIMANALE);
+            PERIODICITA_MAP.put("mensile", MENSILE);
+            PERIODICITA_MAP.put("semestrale", SEMESTRALE);
+            PERIODICITA_MAP.put("annuale", ANNUALE);
+        }
+        public static Rivista.Periodicita lookUp(String value){
+            if(value == null)
+                throw new IllegalArgumentException("Valore non valido");
+            value = value.toLowerCase();
+            Rivista.Periodicita periodicita = PERIODICITA_MAP.get(value);
+            if(periodicita == null)
+                throw new IllegalArgumentException("Periodicità non valido");
+            return periodicita;
+        }
     }
     private final Periodicita periodicita;
 
