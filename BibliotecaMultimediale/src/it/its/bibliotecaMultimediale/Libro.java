@@ -13,7 +13,7 @@ public class Libro extends MaterialeBiblioteca implements Serializable {
     private final int pagine;
     private final Autore riferimentoAutore;
 
-    public Libro(long id, String titolo, int annoRilascio, int disponibilita, String ISBN, int pagine, Autore riferimentoAutore) {
+    public Libro(int id, String titolo, int annoRilascio, int disponibilita, String ISBN, int pagine, Autore riferimentoAutore) {
         super(id, titolo, annoRilascio, disponibilita);
         this.ISBN = ISBN;
         this.pagine = pagine;

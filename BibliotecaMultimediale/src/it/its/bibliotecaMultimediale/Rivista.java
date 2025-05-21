@@ -36,7 +36,7 @@ public class Rivista extends MaterialeBiblioteca implements Serializable {
     }
     private final Periodicita periodicita;
 
-    public Rivista(long id, String titolo, int annoRilascio, int disponibilita, int numeroUscita, Periodicita periodicita) {
+    public Rivista(int id, String titolo, int annoRilascio, int disponibilita, int numeroUscita, Periodicita periodicita) {
         super(id, titolo, annoRilascio, disponibilita);
         this.numeroUscita = numeroUscita;
         this.periodicita = periodicita;

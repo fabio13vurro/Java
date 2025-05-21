@@ -13,6 +13,10 @@ public class GestionePrestiti {
         this.collezionePrestito = new HashSet<>();
     }
 
+    public Set<Prestito> getCollezionePrestito() {
+        return collezionePrestito;
+    }
+
     public void aggiungiPrestito(Prestito prestito){
         collezionePrestito.add(prestito);
     }

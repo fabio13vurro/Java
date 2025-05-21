@@ -10,19 +10,23 @@ public abstract class MaterialeBiblioteca implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final long id;
+    private final int id;
     private final String titolo;
     private final int annoRilascio;
-    private final int disponibilita;
+    private int disponibilita;
 
-    public MaterialeBiblioteca(long id, String titolo, int annoRilascio, int disponibilita) {
+    public MaterialeBiblioteca(int id, String titolo, int annoRilascio, int disponibilita) {
         this.id = id;
         this.titolo = titolo;
         this.annoRilascio = annoRilascio;
         this.disponibilita = disponibilita;
     }
 
-    public long getId() {
+    public void setDisponibilita(int disponibilita) {
+        this.disponibilita = disponibilita;
+    }
+
+    public int getId() {
         return id;
     }
 

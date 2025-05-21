@@ -21,8 +21,8 @@ public class Main {
         int scelta;
 
         Biblioteca biblioteca = Main.caricaBiblioteca();
-        GestionePrestiti gestionePrestiti = new GestionePrestiti();
-        GestioneUtenti gestioneUtenti = new GestioneUtenti();
+        GestioneUtenti gestioneUtenti = Main.caricaUtente();
+        GestionePrestiti gestionePrestiti = Main.caricaPrestiti();
 
     do {
         System.out.println("Benvenuto nel menù Seleziona: " +
@@ -64,6 +64,8 @@ public class Main {
             }
         }while(scelta != 0);
     Main.salvaBiblioteca(biblioteca);
+    Main.salvaUtente(gestioneUtenti);
+    Main.salvaPrestito(gestionePrestiti);
     }
 
     private static void salvaBiblioteca(Biblioteca biblioteca) {
@@ -76,6 +78,37 @@ public class Main {
             ex.printStackTrace();
         }
 
+    }
+
+    private static GestionePrestiti caricaPrestiti(){
+        GestionePrestiti gestionePrestiti = new GestionePrestiti();
+        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("C:/JavaPrograms/BibliotecaMultimediale/resource/prestito.txt"))){
+            Prestito prestito = null;
+            while ((prestito = (Prestito) inputStream.readObject()) != null){
+                gestionePrestiti.aggiungiPrestito(prestito);
+            }
+            System.out.println("Caricati: " + gestionePrestiti.getCollezionePrestito().size());
+            return gestionePrestiti;
+        }catch(EOFException eofException){
+            System.out.println("End of file raggiunta");
+        }catch(IOException | ClassNotFoundException ex){
+            System.out.println("Eccezione");
+            ex.printStackTrace();
+        }finally {
+            System.out.println("Questo lo eseguo sempre");
+        }
+        return gestionePrestiti;
+    }
+
+    private static void salvaPrestito(GestionePrestiti gestionePrestiti) {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("C:/JavaPrograms/BibliotecaMultimediale/resource/prestito.txt"))){
+            for(Prestito prestito : gestionePrestiti.getCollezionePrestito()){
+                outputStream.writeObject(prestito);
+            }
+        }catch (IOException ex){
+            System.out.println("Eccezione in scrittura");
+            ex.printStackTrace();
+        }
     }
 
     private static Biblioteca caricaBiblioteca() {
@@ -98,13 +131,127 @@ public class Main {
         return biblioteca;
     }
 
+    private static void salvaUtente(GestioneUtenti gestioneUtenti) {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("C:/JavaPrograms/BibliotecaMultimediale/resource/utente.txt"))){
+            for(Utente utente : gestioneUtenti.getCollezioneUtente()){
+                outputStream.writeObject(utente);
+            }
+        }catch (IOException ex){
+            System.out.println("Eccezione in scrittura");
+            ex.printStackTrace();
+        }
+    }
+
+    private static GestioneUtenti caricaUtente(){
+        GestioneUtenti gestioneUtenti = new GestioneUtenti();
+        try(ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("C:/JavaPrograms/BibliotecaMultimediale/resource/utente.txt"))){
+            Utente utente = null;
+            while ((utente = (Utente) inputStream.readObject()) != null){
+                gestioneUtenti.aggiungiUtente(utente);
+            }
+            System.out.println("Caricati: " + gestioneUtenti.getCollezioneUtente().size());
+            return gestioneUtenti;
+        }catch(EOFException eofException){
+            System.out.println("End of file raggiunta");
+        }catch(IOException | ClassNotFoundException ex){
+            System.out.println("Eccezione");
+            ex.printStackTrace();
+        }finally {
+            System.out.println("Questo lo eseguo sempre");
+        }
+        return gestioneUtenti;
+    }
+
     private static void ricercaUtente(GestioneUtenti gestioneUtenti, Scanner scanner) {
+        System.out.println("Scegli per cosa ricercare l'utente: " +
+                "\n1. Id" +
+                "\n2. Nome e cognome" +
+                "\n3. Nome o cognome" +
+                "\n0. Esci");
+        int scelta = scanner.nextInt();
+        scanner.nextLine();
+        switch(scelta){
+            case 0:
+                System.out.println("Arrivederci");
+                break;
+            case 1:
+                System.out.println("Inserisci l'id dell'utente da cercare: ");
+                int id = scanner.nextInt();
+                scanner.nextLine();
+                try {
+                    Utente risultato = gestioneUtenti.ricercaUtente(id);
+                    System.out.println("Risultato: " + risultato);
+                }catch (Exception e){
+                    System.out.println("Nessun utente trovato con id: " + id);
+                }
+                break;
+            case 2:
+                System.out.println("Inserisci il nome: ");
+                String nome = scanner.nextLine();
+                System.out.println("Inserisci il cognome: ");
+                String cognome = scanner.nextLine();
+                try {
+                    List<Utente> risultato = gestioneUtenti.ricercaUtente(nome, cognome);
+                    System.out.println("Risultato: " + risultato);
+                }catch (Exception e){
+                    System.out.println("Nessun utente trovato che si chiama: " + nome + " " + cognome);
+                }
+                break;
+            case 3:
+                System.out.println("Inserisci il nome o il cognome: ");
+                String ricerca = scanner.nextLine();
+                try {
+                    List<Utente> risultato = gestioneUtenti.ricercaUtente(ricerca);
+                    System.out.println("Risultato: " + risultato);
+                }catch (Exception e){
+                    System.out.println("Nessun utente trovato che si chiama: " + ricerca);
+                }
+                break;
+            default:
+                System.out.println("Scelta non valida");
+                break;
+        }
     }
 
     private static void richiediPrestito(Biblioteca biblioteca, GestioneUtenti gestioneUtenti, GestionePrestiti gestionePrestiti, Scanner scanner) {
+        System.out.println("Inserisci l'id del materiale: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        MaterialeBiblioteca riferimentoMateriale = biblioteca.ricercaElementi(id);
+        System.out.println("Inserisci l'id dell'utente: ");
+        id = scanner.nextInt();
+        scanner.nextLine();
+        Utente riferimentoUtente = gestioneUtenti.ricercaUtente(id);
+        LocalDate dataPrestito = LocalDate.now();
+        if(riferimentoUtente != null && riferimentoMateriale != null && riferimentoMateriale.getDisponibilita() > 0){
+            riferimentoMateriale.setDisponibilita(riferimentoMateriale.getDisponibilita() - 1);
+            Prestito prestito = new Prestito(riferimentoMateriale, riferimentoUtente, dataPrestito);
+            gestionePrestiti.aggiungiPrestito(prestito);
+            System.out.println("Prestito effettuato con successo");
+        }
     }
-
     private static void restituzionePrestito(Biblioteca biblioteca, GestioneUtenti gestioneUtenti, GestionePrestiti gestionePrestiti, Scanner scanner) {
+        System.out.println("Inserisci l'id del materiale: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        MaterialeBiblioteca riferimentoMateriale = biblioteca.ricercaElementi(id);
+        System.out.println("Inserisci l'id dell'utente: ");
+        id = scanner.nextInt();
+        scanner.nextLine();
+        Utente riferimentoUtente = gestioneUtenti.ricercaUtente(id);
+        System.out.println("Inserisci la data di prestito: ");
+        String dataPrestito = scanner.nextLine();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataFormattata;
+        try {
+            dataFormattata = LocalDate.parse(dataPrestito, format);
+            if(riferimentoUtente != null && riferimentoMateriale != null){
+                gestionePrestiti.restituzionePrestito(riferimentoUtente.getId(), riferimentoMateriale.getId(), dataFormattata);
+                riferimentoMateriale.setDisponibilita(riferimentoMateriale.getDisponibilita() + 1);
+            }
+        }catch (DateTimeParseException e) {
+            System.out.println("Data non valida");
+        }
     }
 
     private static void ricercaMateriale(Biblioteca biblioteca, Scanner scanner){
@@ -152,12 +299,23 @@ public class Main {
                 System.out.println("Risultato: " + risultato + "\n");
                 break;
             default:
-
+                System.out.println("Scelta non valida");
                 break;
         }
     }
 
     private static void aggiungiUtente(GestioneUtenti gestioneUtenti, Scanner scanner) {
+        System.out.println("Inserisci utente: ");
+        System.out.println("Inserisci id utente: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Inserisci nome: ");
+        String nome = scanner.nextLine();
+        System.out.println("Inserisci cognome: ");
+        String cognome = scanner.nextLine();
+        Utente utente = new Utente(id, nome, cognome);
+        gestioneUtenti.aggiungiUtente(utente);
+        System.out.println("Utente aggiunto con successo: " + utente);
     }
 
     private static void aggiungiMateriale(Biblioteca biblioteca, Scanner scanner) {
@@ -172,7 +330,7 @@ public class Main {
         scanner.nextLine();
 
         System.out.println("Inserisci id:");
-        long id = scanner.nextLong();
+        int id = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Inserisci il titolo: ");
         String titolo = scanner.nextLine();

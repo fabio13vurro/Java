@@ -63,12 +63,18 @@ public class Biblioteca {
         return risultato;
     }
 
-    public void dettaglio(long id){
+    public void dettaglio(int id){
        for(MaterialeBiblioteca materialeBiblioteca : collezioneMateriali){
            if(materialeBiblioteca.getId() == id)
                System.out.println("Oggetto trovato: " + materialeBiblioteca);
        }
     }
 
-
+    public MaterialeBiblioteca ricercaElementi(int id) {
+        for(MaterialeBiblioteca materialeBiblioteca : collezioneMateriali){
+            if(materialeBiblioteca.getId() == id)
+                return materialeBiblioteca;
+        }
+        return null;
+    }
 }

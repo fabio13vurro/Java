@@ -35,7 +35,7 @@ public class DVD extends MaterialeBiblioteca implements Serializable {
     }
     private final Genere genere;
 
-    public DVD(long id, String titolo, int annoRilascio, int disponibilita, Autore regista, int durata, Genere genere) {
+    public DVD(int id, String titolo, int annoRilascio, int disponibilita, Autore regista, int durata, Genere genere) {
         super(id, titolo, annoRilascio, disponibilita);
         this.regista = regista;
         this.durata = durata;
