@@ -1,4 +1,4 @@
-package it.its.modulo.java;
+package it.its.modulo.java.model;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Spettacolo extends Attrazione{
+public class Spettacolo extends Attrazione {
 
     private final List<LocalTime> orariInizio;
     private final int durataSpettacoloInMinuti;

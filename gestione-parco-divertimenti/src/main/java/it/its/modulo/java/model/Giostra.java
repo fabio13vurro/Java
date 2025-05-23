@@ -1,4 +1,4 @@
-package it.its.modulo.java;
+package it.its.modulo.java.model;
 
 import java.util.Objects;
 
@@ -21,12 +21,12 @@ public class Giostra extends Attrazione{
     }
 
     @Override
-    protected String getDescrizioneCompleta() {
+    public String getDescrizioneCompleta() {
         return this.getNomeAttrazione() + " " + this.getCodiceAttrazione();
     }
 
     @Override
-    protected int calcolaTempoAttesaMedio(int personeInCoda) {
+    public int calcolaTempoAttesaMedio(int personeInCoda) {
         return durataGiroMinuti * personeInCoda / this.getCapacitaOraria();
     }
 

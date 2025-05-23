@@ -1,0 +1,3 @@
+percorso_attrazioni = C:\JavaPrograms\gestione-parco-divertimenti\attrazioni.json
+percorso_visitatori = C:\JavaPrograms\gestione-parco-divertimenti\biglietti.json
+percorso_biglietti = C:\JavaPrograms\gestione-parco-divertimenti\visitatori.json

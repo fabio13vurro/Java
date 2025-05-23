@@ -1,20 +1,20 @@
-package it.its.modulo.java;
+package it.its.modulo.java.model;
 
 public class Visitatore {
-    private final String idBiglietto;
+    private final String codiceFiscale;
     private final String nome;
     private final int altezzaCm;
     private final int eta;
 
-    public Visitatore(String idBiglietto, String nome, int altezzaCm, int eta) {
-        this.idBiglietto = idBiglietto;
+    public Visitatore(String codiceFiscale, String nome, int altezzaCm, int eta) {
+        this.codiceFiscale = codiceFiscale;
         this.nome = nome;
         this.altezzaCm = altezzaCm;
         this.eta = eta;
     }
 
-    public String getIdBiglietto() {
-        return idBiglietto;
+    public String getCodiceFiscale() {
+        return codiceFiscale;
     }
 
     public String getNome() {
@@ -34,19 +34,19 @@ public class Visitatore {
         if(obj == null)
             return false;
         if((obj instanceof Visitatore visitatore))
-            return this.idBiglietto.equals(visitatore.getIdBiglietto());
+            return this.codiceFiscale.equals(visitatore.getCodiceFiscale());
         return false;
        }
 
     @Override
     public int hashCode() {
-        return this.idBiglietto.hashCode();
+        return this.codiceFiscale.hashCode();
     }
 
     @Override
     public String toString() {
         return "Visitatore{" +
-                "idBiglietto='" + idBiglietto + '\'' +
+                "Codice fiscale='" + codiceFiscale + '\'' +
                 ", nome='" + nome + '\'' +
                 ", altezzaCm=" + altezzaCm +
                 ", eta=" + eta +
